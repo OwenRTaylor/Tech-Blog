@@ -1,0 +1,10 @@
+<article class="post">
+<a href="{{post.post_url}}"><h3>{{post.title}}</h3></a>
+<h4>{{post.post_url}}</h4>
+CREATED AT {{post.created_at}}
+</article>
+{{#if loggedIn}}
+<h2>You are logged in!</h2>
+{{else}}
+<h2>You are not logged in</h2>
+{{/if}}

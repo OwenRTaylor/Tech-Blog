@@ -78,7 +78,7 @@ router.post('/', (req,res) => {
 });
 
 
-router.put('/:id', (req, res) => {
+router.put('single-post/:id', (req, res) => {
     Post.update(
       {
         title: req.body.title
