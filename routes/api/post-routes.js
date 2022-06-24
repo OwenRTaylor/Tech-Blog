@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     Post.findAll({
         attributes: [
         'id',
-        'post_url',
+        'post_text',
         'title',
         'created_at',
     ],
@@ -36,7 +36,7 @@ router.get('/:id', (req,res) => {
         },
         attributes: [
             'id',
-            'post_url',
+            'post_text',
             'title',
             'created_at',
             
@@ -67,7 +67,7 @@ router.post('/', (req,res) => {
     Post.create(
         {
             title: req.body.title,
-            post_url: req.body.post_url,
+            post_text: req.body.post_text,
             user_id: req.session.user_id
         })
 .then(dbPostData => res.json(dbPostData))
@@ -78,10 +78,13 @@ router.post('/', (req,res) => {
 });
 
 
-router.put('single-post/:id', (req, res) => {
+router.put('/:id', (req, res) => {
+    console.log(req.body)
+    console.log(req.params)
     Post.update(
       {
-        title: req.body.title
+        title: req.body.title,
+        text: req.body.text
       },
       {
         where: {
@@ -89,12 +92,13 @@ router.put('single-post/:id', (req, res) => {
         }
       }
     )
-      .then(dbPostData => {
-        if (!dbPostData) {
+      .then(updatedPostData => {
+        if (!updatedPostData) {
           res.status(404).json({ message: 'No post found with this id' });
           return;
         }
-        res.json(dbPostData);
+        console.log(updatedPostData)
+        res.json(updatedPostData);
       })
       .catch(err => {
         console.log(err);

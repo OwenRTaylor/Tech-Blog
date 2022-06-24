@@ -5,7 +5,7 @@ router.get('/', (req,res) => {
     Post.findAll({
         attributes: [
         'id',
-        'post_url',
+        'post_text',
         'title',
         'created_at',
     ],
@@ -46,7 +46,7 @@ router.get('/dashboard',(req,res) => {
         Post.findAll({
             attributes: [
             'id',
-            'post_url',
+            'post_text',
             'title',
             'created_at',
         ],
@@ -88,8 +88,9 @@ router.get('/single-post/:id',(req,res) => {
     Post.findOne({
         attributes: [
         'id',
-        'post_url',
+        'user_id',
         'title',
+        'post_text',
         'created_at',
     ],
         order: [['created_at', 'DESC']],
@@ -98,6 +99,14 @@ router.get('/single-post/:id',(req,res) => {
                 model: User,
 
                 attributes: ['username']
+            },
+            {
+                model: Comment,
+                include: {
+                    model: User,
+                    attributes: ['username']
+                  }
+                // attributes: ['user_id','comment_text','post_id','created_at']
             }
         ],
         where: {
@@ -109,10 +118,34 @@ router.get('/single-post/:id',(req,res) => {
             res.status(404).json({ message: 'No post found with this id' });
             return;
           }
+          req.session.post_id = dbPostData.id;
           const post = dbPostData.get({plain: true})
+          const comments = dbPostData.comments.map(comments => comments.get({ plain: true }));
+          console.log(post);
+          console.log(comments);
+          console.log(req.session);
+          console.log(req.session.user_id);
+          let yourPost;
+          
+          if (post.user_id == req.session.user_id) {
+            yourPost = true;
+          } else {
+            yourPost = false
+          };
+
+          for(let i = 0; i < comments.length; i++) {
+            if(comments[i].user_id == req.session.user_id){
+                comments[i].yourComment = true;
+            }else{
+                comments[i].yourComment = false;
+            }
+          }
+          console.log(yourPost)
         res.render('single-post', { 
             post,
-            loggedIn: req.session.loggedIn
+            comments,
+            loggedIn: req.session.loggedIn,
+            yourPost
          })
     })
       .catch(err => {

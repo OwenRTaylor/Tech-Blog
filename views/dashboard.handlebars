@@ -1,7 +1,7 @@
 {{#each posts as |post|}}
 <article class="post">
 <a href="/single-post/{{post.id}}"><h3>{{post.title}}</h3></a>
-<a href="{{post.post_url}}"><h4>{{post.post_url}}</h4></a>
+<h4>{{post.post_text}}</h4>
 CREATED AT {{post.created_at}}
 </article>
 {{/each}}
@@ -9,7 +9,7 @@ CREATED AT {{post.created_at}}
 <h2>You are logged in!</h2>
 <form >
 Title:<textarea class="new-post-title"></textarea>
-URL:<textarea class="new-posturl"></textarea>
+text:<textarea class="new-post-text"></textarea>
 <button class="new-postbtn" type="click">New post</button>
 </form>
 <script src="/js/dashboard.js"></script>

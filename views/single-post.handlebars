@@ -1,10 +1,43 @@
 <article class="post">
-<a href="{{post.post_url}}"><h3>{{post.title}}</h3></a>
-<h4>{{post.post_url}}</h4>
+
+
+{{#if yourPost}}
+<textarea class="post-updated-title">{{post.title}}</textarea>
+<textarea class="post-updated-text">{{post.post_text}}</textarea>
+<button class="post-delete-btn" value="{{post.id}}">Delete</button>
+<button class="post-update-btn" value="{{post.id}}">Update</button>
+{{else}}
+<h3 class="post-title">{{post.title}}</h3>
+<h4 class="post-text">{{post.post_text}}</h4>
+{{/if}}
 CREATED AT {{post.created_at}}
+{{#if post.updatedAt}}
+UPDATED AT: {{post.updatedAt}}
+{{/if}}
+{{#each comments as |comment|}}
+<article class="comment">
+<p>
+USERNAME: {{comment.user.username}} <br>
+COMMENT: {{comment.comment_text}}
+</p>
+CREATED AT {{comment.createdAt}}
+LAST UPDATED {{comment.updatedAt}}
+{{#if comment.yourComment}}
+<button class="comment-delete-btn" value="{{comment.id}}">Delete</button>
+<button class="comment-update-btn" value="{{comment.id}}">Update</button>
+{{/if}}
+</article>
+{{/each}}
+
 </article>
 {{#if loggedIn}}
 <h2>You are logged in!</h2>
+<form >
+TEXT:<textarea class="new-comment_text"></textarea>
+<button class="new-commentbtn" type="click">New comment</button>
+</form>
+<script src="/js/single-post.js"></script>
 {{else}}
 <h2>You are not logged in</h2>
 {{/if}}
+

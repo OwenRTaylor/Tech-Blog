@@ -15,4 +15,10 @@ form {
 
 .post{
     background-color: aqua;
+    
+}
+
+.comment {
+    background-color: green;
+    margin: 10px;
 }
