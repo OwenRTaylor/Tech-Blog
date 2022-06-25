@@ -92,6 +92,7 @@ router.get('/single-post/:id',(req,res) => {
         'title',
         'post_text',
         'created_at',
+        'updated_at'
     ],
         order: [['created_at', 'DESC']],
         include: [
@@ -121,10 +122,8 @@ router.get('/single-post/:id',(req,res) => {
           req.session.post_id = dbPostData.id;
           const post = dbPostData.get({plain: true})
           const comments = dbPostData.comments.map(comments => comments.get({ plain: true }));
-          console.log(post);
-          console.log(comments);
-          console.log(req.session);
-          console.log(req.session.user_id);
+         
+         
           let yourPost;
           
           if (post.user_id == req.session.user_id) {
@@ -140,7 +139,7 @@ router.get('/single-post/:id',(req,res) => {
                 comments[i].yourComment = false;
             }
           }
-          console.log(yourPost)
+          console.log(post)
         res.render('single-post', { 
             post,
             comments,

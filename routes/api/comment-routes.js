@@ -29,6 +29,24 @@ router.post('/', (req,res) => {
     })
 })
 
+router.put('/:id', (req,res) => {
+    Comment.update(
+    {
+        comment_text: req.body.comment_text
+    },
+    {
+    where: {
+        id: req.params.id
+    }
+    }
+    )
+    .then(updatedCommentData => res.json(updatedCommentData))
+    .catch(err => {
+        console.log(err);
+        res.status.json(err);
+    })
+})
+
 router.delete('/:id', (req,res) => {
     Comment.destroy({
         where: {
