@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { Post, User } = require('../../models');
+const { Post, User,Comment } = require('../../models');
 const { sequelize } = require('../../models/User');
 
 
@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
         'post_text',
         'title',
         'created_at',
+        
     ],
         order: [['created_at', 'DESC']],
         include: [
@@ -107,24 +108,34 @@ router.put('/:id', (req, res) => {
   });
 
   router.delete('/:id', (req,res) => {
-      Post.destroy(
-          {
-              where: {
-                  id: req.params.id
-              }
-              
-          })
-          .then( dbPostData => {
-              if (!dbPostData) {
-                  res.status(404).json({message: 'No post found with this id'});
-                  return;
-              }
-              res.json(dbPostData);
-          })
-          .catch(err => {
-              console.log(err);
-              res.status(500).json(err);
-          });
+    console.log(req.params)
+    Comment.destroy({
+        where:{
+            post_id: req.params.id
+        }
+    }).then(() => {
+        Post.destroy(
+            {
+                where: {
+                    id: req.params.id,
+                }
+            })
+            .then( dbPostData => {
+                if (!dbPostData) {
+                    res.status(404).json({message: 'No post found with this id'});
+                    return;
+                }
+                res.json(dbPostData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
   });
   module.exports = router;
 

@@ -1,4 +1,7 @@
-
+const post = document.querySelector('.post')
+const post_id = document.location.toString().split('/')[
+    document.location.toString().split('/').length - 1
+]
 function loadData() {
     document.querySelectorAll('.comment-delete-btn').forEach((button) => {
         button.addEventListener('click',deleteComment);
@@ -20,55 +23,94 @@ function loadData() {
     })
 }
 
-function newComment(event) {
+async function newComment(event) {
     event.preventDefault();
-    const comment_text = document.querySelector('.new-comment_text').value.trim();
+    const comment_text = document.querySelector('.new-comment-text').value.trim();
       console.log('success!');
       console.log(comment_text);
-      const response = fetch('/api/comments', {
+    if(comment_text){
+      const response = await fetch('/api/comments', {
           method: 'POST',
           body: JSON.stringify({comment_text}),
           headers: {'Content-Type': 'application/json'}
       })
+    if (response.ok){
+        document.location.reload();
+    }else{
+        alert(response.statusText)
+    }
+    
+    }
   
   };
-function deletePost(event) {
+async function deletePost(event) {
     event.preventDefault();
-    const response = fetch(`/api/posts/${this.value}`, {
-        method: 'Delete',
+    console.log(this.value)
+
+        const response = await fetch(`/api/posts/${post_id}`, {
+        method: 'DELETE',
         headers: {'Content-Type': 'application/json'}
     })
+    if (response.ok){
+        document.location.reload();
+    }else{
+        alert(response.statusText)
+    }
+
+
 }
-function deleteComment(event) {
+async function deleteComment(event) {
     event.preventDefault();
-    const response = fetch(`/api/comments/${this.value}`, {
-        method: 'Delete',
+
+        const response = await fetch(`/api/comments/${this.value}`, {
+        method: 'DELETE',
         headers: {'Content-Type': 'application/json'}
     })
-    
+    if (response.ok){
+        document.location.reload();
+    }else{
+        alert(response.statusText)
+    }
 }
 
 async function updatePost(event){
     event.preventDefault();
+
   let title = document.querySelector('.post-updated-title').value.trim();
   let post_text = document.querySelector('.post-updated-text').value.trim();
-
-  const response = await fetch(`/api/posts/${this.value}`, {
+if(title && post_text){
+  const response = await fetch(`/api/posts/${post_id}`, {
     method: 'PUT',
     body:JSON.stringify({title,post_text}),
     headers: {'Content-Type': 'application/json'}
 })
+document.location.reload();
+
+
+if (response.ok){
+    document.location.reload();
+}else{
+    alert(response.statusText)
+}
+}
 };
 
 async function updateComment(event){
     event.preventDefault();
   let comment_text = document.querySelector('.comment-updated-text').value.trim();
-
+if(comment_text){
   const response = await fetch(`/api/comments/${this.value}`, {
     method: 'PUT',
     body:JSON.stringify({comment_text}),
     headers: {'Content-Type': 'application/json'}
 })
+if (response.ok){
+    document.location.reload();
+}else{
+    alert(response.statusText)
+}
+
+}
 }
 try{
 document.querySelector('.new-commentbtn')

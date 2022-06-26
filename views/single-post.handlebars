@@ -1,4 +1,4 @@
-<article class="post">
+<article class="single-post">
 
 
 {{#if yourPost}}
@@ -13,13 +13,20 @@
 <button class="post-delete-btn" value="{{post.id}}">Delete</button>
 <button class="post-update-btn" value="{{post.id}}">Update</button>
 {{else}}
+<p class="post-username">Creator {{post.user.username}}</p>
 <h3 class="post-title">{{post.title}}</h3>
 <h4 class="post-text">{{post.post_text}}</h4>
 {{/if}}
 
 <p class="created-at date">created at:{{post.created_at}}</p>
 <p class="last-updated date">last updated:{{post.updated_at}}</p>
-
+{{#if loggedIn}}
+<h2>You are logged in!</h2>
+<form class="comment">
+<textarea class="new-comment-text"></textarea>
+<button class="new-commentbtn" type="click">New comment</button>
+</form>
+{{/if}}
 {{#each comments as |comment|}}
 <article class="comment">
 
@@ -41,14 +48,6 @@ COMMENT: {{comment.comment_text}}
 {{/each}}
 
 </article>
-{{#if loggedIn}}
-<h2>You are logged in!</h2>
-<form class="comment">
-<textarea class="new-comment_text"></textarea>
-<button class="new-commentbtn" type="click">New comment</button>
-</form>
-{{else}}
-<h2>You are not logged in</h2>
-{{/if}}
+
 <script src="/js/single-post.js"></script>
 

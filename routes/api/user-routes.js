@@ -54,8 +54,10 @@ router.post('/', (req, res) => {
     .then(dbUserData => {
       req.session.save( () => {
         req.session.loggedIn = true
-        res.json({user: dbUserData, message: "You have logged in"})
+        req.session.user_id = JSON.stringify(dbUserData.id)
+        res.json({user: dbUserData, message: `You have logged in ${dbUserData.id}`})
       })
+      console.log(res)
     })
     .catch(err => {
       console.log(err);

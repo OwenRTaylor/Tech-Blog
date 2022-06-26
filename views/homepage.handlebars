@@ -1,10 +1,12 @@
 <h1>Welcome</h1>
 {{#each posts as |post|}}
 <article class="post">
-<a href="/single-post/{{post.id}}"><h3>{{post.title}}</h3></a>
-<h4>{{post.post_text}}</h4>
-USER: {{post.user.username}}
-CREATED AT {{post.created_at}}
+<a href="/single-post/{{post.id}}" class="post-title"><h3>{{post.title}}</h3></a>
+<h4 class="post-text">{{post.post_text}}</h4>
+<p class="post-username">Creator {{post.user.username}}</p>
+
+<p class="created-at date">created at:{{post.created_at}}</p>
+<p class="last-updated date">last updated:{{post.updated_at}}</p>
 </article>
 {{/each}}
 {{#if loggedIn}}
