@@ -1,5 +1,5 @@
 {
-  "name": "financial-tracker",
+  "name": "tech-blog",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/charliefontanez/financial-tracker.git"
+    "url": "git+https://github.com/Ortaylo/Tech-Blog"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/charliefontanez/financial-tracker/issues"
+    "url": "https://github.com/Ortaylo/Tech-Blog/issues"
   },
-  "homepage": "https://github.com/charliefontanez/financial-tracker#readme",
+  "homepage": "https://github.com/Ortaylo/Tech-Blog#readme",
   "devDependencies": {
     "jest": "^28.1.0"
   },
