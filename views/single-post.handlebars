@@ -1,0 +1,53 @@
+<article class="single-post">
+
+
+{{#if yourPost}}
+<ul>
+<li>
+    <textarea class="post-updated-title post title">{{post.title}}</textarea>
+</li>
+<li>
+    <textarea class="post-updated-text post">{{post.post_text}}</textarea>
+</li>
+</ul>
+<button class="post-delete-btn" value="{{post.id}}">Delete</button>
+<button class="post-update-btn" value="{{post.id}}">Update</button>
+{{else}}
+<p class="post-username">Creator {{post.user.username}}</p>
+<h3 class="post-title">{{post.title}}</h3>
+<h4 class="post-text">{{post.post_text}}</h4>
+{{/if}}
+
+<p class="created-at date">created at:{{post.created_at}}</p>
+<p class="last-updated date">last updated:{{post.updated_at}}</p>
+{{#if loggedIn}}
+<h2>You are logged in!</h2>
+<form class="comment">
+<textarea class="new-comment-text"></textarea>
+<button class="new-commentbtn" type="click">New comment</button>
+</form>
+{{/if}}
+{{#each comments as |comment|}}
+<article class="comment">
+
+<ul>
+<p class="created-at date">created at:{{comment.createdAt}}</p>
+<p class="last-updated date">last updated:{{comment.updatedAt}}</p>
+</ul>
+{{#if comment.yourComment}}
+<textarea class="comment-updated-text">{{comment.comment_text}}</textarea>
+<button class="comment-delete-btn" value="{{comment.id}}">Delete</button>
+<button class="comment-update-btn" value="{{comment.id}}">Update</button>
+{{else}}
+<p>
+USERNAME: {{comment.user.username}} <br>
+COMMENT: {{comment.comment_text}}
+</p>
+{{/if}}
+</article>
+{{/each}}
+
+</article>
+
+<script src="/js/single-post.js"></script>
+

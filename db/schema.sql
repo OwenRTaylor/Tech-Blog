@@ -1,5 +1,7 @@
-DROP DATABASE IF EXISTS just_tech_news_db;
+-- DROP DATABASE
+DROP DATABASE IF EXISTS tech_blog_db;
 
-CREATE DATABASE just_tech_news_db;
+-- CREATE DATABASE
+CREATE DATABASE tech_blog_db;
 
-USE just_tech_news_db;
+USE tech_blog_db

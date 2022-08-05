@@ -2,13 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Financial Tracker</title>
-    <link rel = "stylesheet" type = "text/css" href = "/css/style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Tech-Blog</title>
 </head>
 <body>
-    <h1>Welcome</h1>
+      <nav>
+        <a href="/">Home</a>
+        {{#if loggedIn}}
+        <a href="/dashboard">Dashboard</a>
+        <button class="logoutBtn">Logout</button>
+        {{else}}
+        <a href="/login">Login</a>
+        {{/if}}
+
+    </nav>
+
     
     {{{body}}}
-    
+
+
+{{#if loggedIn}}
+  <script src="/js/logout.js"></script>
+  {{/if}}
 </body>
 </html>

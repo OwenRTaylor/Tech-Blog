@@ -1,0 +1,31 @@
+
+<form class="new-post">
+    <ul>
+        Title:
+        <li>
+            <textarea class="new-post-title post"></textarea>
+        </li>
+        text:
+        <li>
+            <textarea class="new-post-text post"></textarea>
+        </li>
+        <li>
+            <button class="new-postbtn" type="click">New post</button>
+
+        </li>
+    </ul>
+</form>
+
+{{#each posts as |post|}}
+<article class="post">
+<a href="/single-post/{{post.id}}"><h3 class="post-title">{{post.title}}</h3></a>
+<h4 class="post-text">{{post.post_text}}</h4>
+<p class="created-at date">created at:{{post.created_at}}</p>
+<p class="last-updated date">last updated:{{post.updated_at}}</p>
+</article>
+{{/each}}
+
+
+
+
+<script src="/js/dashboard.js"></script>

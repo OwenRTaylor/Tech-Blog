@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { User, Post, Vote,Comment } = require('../../models');
+const session = require('express-session');
+const { User, Post, Comment } = require('../../models');
 
 // get all users
 router.get('/', (req, res) => {
@@ -22,13 +23,7 @@ router.get('/:id', (req, res) => {
     include: [
       {
         model: Post,
-        attributes: ['id', 'title', 'post_url', 'created_at']
-      },
-      {
-        model: Post,
-        attributes: ['title'],
-        through: Vote,
-        as: 'voted_posts'
+        attributes: ['id', 'title', 'post_text', 'created_at']
       },
       {
         model: Comment,
@@ -56,7 +51,14 @@ router.post('/', (req, res) => {
     email: req.body.email,
     password: req.body.password
   })
-    .then(dbUserData => res.json(dbUserData))
+    .then(dbUserData => {
+      req.session.save( () => {
+        req.session.loggedIn = true
+        req.session.user_id = JSON.stringify(dbUserData.id)
+        res.json({user: dbUserData, message: `You have logged in ${dbUserData.id}`})
+      })
+      console.log(res)
+    })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
@@ -81,8 +83,15 @@ router.post('/login', (req, res) => {
       res.status(400).json({ message: 'Incorrect password!' });
       return;
     }
+    
+    if (validPassword) {
+      req.session.save (() => {
+        req.session.loggedIn = true
+        req.session.user_id =JSON.stringify(dbUserData.id)
+        res.json({user: dbUserData,message: `You are now logged in ${dbUserData.id}`,})
+      })
+    }
 
-    res.json({ user: dbUserData, message: 'You are now logged in!' });
   });
 });
 
@@ -127,5 +136,16 @@ router.delete('/:id', (req, res) => {
       res.status(500).json(err);
     });
 });
+
+
+router.post('/logout', (req,res) => {
+  if (req.session.loggedIn) {
+      req.session.destroy(() => {
+          res.end();
+      });
+  } else{
+      res.end();
+  }
+})
 
 module.exports = router;

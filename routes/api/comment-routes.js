@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const { Post, User, Vote, Comment } = require('../../models');
-const { sequelize } = require('../../models/Users');
+const { Post, User, Comment } = require('../../models');
 
 router.get('/', (req,res) => {
     Comment.findAll({
@@ -20,13 +19,31 @@ router.get('/', (req,res) => {
 router.post('/', (req,res) => {
     Comment.create({
         comment_text: req.body.comment_text,
-        user_id: req.body.user_id,
-        post_id: req.body.post_id
+        user_id: req.session.user_id,
+        post_id: req.session.post_id
     })
     .then(dbCommentData => res.json(dbCommentData))
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
+    })
+})
+
+router.put('/:id', (req,res) => {
+    Comment.update(
+    {
+        comment_text: req.body.comment_text
+    },
+    {
+    where: {
+        id: req.params.id
+    }
+    }
+    )
+    .then(updatedCommentData => res.json(updatedCommentData))
+    .catch(err => {
+        console.log(err);
+        res.status.json(err);
     })
 })
 
